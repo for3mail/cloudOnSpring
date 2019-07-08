@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+    <meta charset="utf-8"/>
+
+    <title>Хранилище</title>
+
+    <link rel="icon" type="image/png" th:href="@{/favicon.ico}"/>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+
+    <meta name="ctx" th:content="${#httpServletRequest.getContextPath()}"/>
+</head>
+
+<body>
+
+<!--<div th:replace="~{navigation :: navi(Cart)}"/>-->
+<div th:replace="~{navigation :: navi(Cart)}"/>
+<div class="container">
+    <br>
+    <h1>Хранилище</h1>
+
+    <!--<form th:action="@{up/uploadFile}" th:object="${cloudFile}" method="post">
+
+        &lt;!&ndash;<input hidden type="text" th:field="*{id}" class="form-control" id="productId">&ndash;&gt;
+
+        <div class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}" />
+        <div class="form-group">
+            <label for="productTitle">Название</label>
+            <input type="text" th:field="*{title}" class="form-control" id="productTitle" placeholder="Введите название товара">
+        </div>
+        <div class="error" th:if="${#fields.hasErrors('cost')}" th:errors="*{cost}" />
+        <div class="form-group">
+            <label for="productCost">Цена</label>
+            <input th:field="*{cost}" type="number" class="form-control" id="productCost" placeholder="Введите цену товара">
+        </div>
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+    </form>-->
+
+
+    <div> Загрузить новый файл <br>
+    <form th:action="@{uploadFile}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="file">
+
+        <input type="submit" value="Загрузить">
+
+    </form>
+    </div>
+
+    <br>
+    <br>
+
+    <div>
+        <table class="table table-hover">
+            <thead class="thead-dark">
+            <tr>
+                <th>№</th>
+                <th>Название файла</th>
+                <th>дата добавления</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="Item, itrStat : ${userfileslist}">
+                <td th:text="${itrStat.index + 1}"/>
+                <td th:text="${Item.title}"/>
+                <td th:text="${Item.createdAt}"/>
+                <td>
+                    <a th:href="@{'/download/' + ${Item.id}}" class="btn btn-primary">Скачать</a>
+                </td>
+
+            </tr>
+            <!--<tr>
+                <td/><td/><td/>
+                <td>Итого размер:</td>
+                <td th:text="${cart.totalCost}"/>
+            </tr>-->
+            </tbody>
+        </table>
+        <br>
+<!--
+        <a sec:authorize="isAuthenticated()" type="button" class="btn btn-primary" th:href="@{/order/fill}">Продолжить оформление заказа</a>
+        <a sec:authorize="isAnonymous()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#authWarningModal">Продолжить оформление заказа</a>-->
+
+    </div>
+<!--    <div th:unless="${cart.getItems().size() > 0}" >
+        <span>Хранилище как новенькое</span>
+    </div>-->
+</div>
+
+<!--<div class="modal fade" id="authWarningModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Предупреждение</h5>
+            </div>
+            <div class="modal-body">
+                <span>Для формирования заказа Вам необходимо зайти в свою учетную запись</span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Хорошо</button>
+            </div>
+        </div>
+    </div>
+</div>-->
+
+</body>
+</html>
