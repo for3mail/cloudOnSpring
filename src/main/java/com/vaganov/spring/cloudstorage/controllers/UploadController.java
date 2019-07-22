@@ -46,14 +46,8 @@ public class UploadController {
     @ResponseBody
     public String uploadFile(@RequestParam("file") MultipartFile file, HttpServletRequest httpServletRequest, Principal principal) {// имена параметров (тут - "file") - из формы JSP.
 
-        System.out.println("Bigining.................................");
-//        System.out.println("Prinipal" + principal);
-//        System.out.println("Prinipal.getName()" + principal.getName());
-        System.out.println("Bigining.................................");
-
         User user = userService.findByUserName(principal.getName());
         String name = null;
-
 
         if (!file.isEmpty()) {
             try {
@@ -71,10 +65,8 @@ public class UploadController {
                     dir.mkdirs();
                 }
 
-
-
                 File uploadedFile = new File(dir.getAbsolutePath() + File.separator + name);
-                //cloudFile.setPath(dir.getAbsolutePath() + File.separator + name);
+               
                 cloudFile.setPath(httpServletRequest.getContentType());
                 cloudFile.setCreatedAt(LocalDateTime.now());
                 cloudFile.setTitle(name);
@@ -87,9 +79,6 @@ public class UploadController {
                 stream.close();
 
                 logger.info("uploaded: " + uploadedFile.getAbsolutePath());
-
-                //return "You successfully uploaded file=" + name;
-                //return "up";
 
                 String referrer = httpServletRequest.getHeader("referer");
                 return "Файл успешно загружен. Нажмите кнопку назад";
